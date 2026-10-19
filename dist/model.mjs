@@ -1,0 +1,3 @@
+export function cents(value,allowZero=true){const s=String(value).trim();if(!/^\d+(\.\d{1,2})?$/.test(s))throw Error('Usa un importe válido con hasta dos decimales.');const n=Math.round(Number(s)*100);if(n>10000000||(!allowZero&&n===0))throw Error('El importe debe estar entre '+(allowZero?'0':'0.01')+' y 100,000 pesos.');return n}
+export function calculate(d){const price=cents(d.price),budget=cents(d.budget,false),shipping=d.unknown?null:cents(d.shipping);const total=shipping===null?null:price+shipping;return{price,budget,shipping,total,difference:total===null?null:total-budget,minimum:price-budget}}
+export function validate(d){if(!d.use.trim()||d.use.trim().length>300)throw Error('Cuéntanos para qué la usarías, en 1 a 300 caracteres.');return calculate(d)}
